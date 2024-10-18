@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- Meta tags for social media banners, these should be filled in appropriately as they are your "business card" -->
+    <!-- Replace the content tag with appropriate information -->
+    <meta name="description" content="AED: Adaptable Error Detection for Few-shot Imitation Policy">
+    <meta property="og:title" content="AED" />
+    <meta property="og:description" content="We introduce a new task called Adaptable Error Detection (AED), which aims to identify behavior errors in few-shot imitation (FSI) policies based on visual observations in novel environments. The potential to cause serious damage to surrounding areas limits the application of FSI policies in real-world scenarios. Thus, a robust system is necessary to notify operators when FSI policies are inconsistent with the intent of demonstrations. This task introduces three challenges: (1) detecting behavior errors in novel environments, (2) identifying behavior errors that occur without revealing notable changes, and (3) lacking complete temporal information of the rollout due to the necessity of online detection. However, the existing benchmarks cannot support the development of AED because their tasks do not present all these challenges. To this end, we develop a cross-domain AED benchmark, consisting of 322 base and 153 novel environments. Additionally, we propose Pattern Observer (PrObe) to address these challenges. PrObe is equipped with a powerful pattern extractor and guided by novel learning objectives to parse discernible patterns in the policy feature representations of normal or error states. Through our comprehensive evaluation, PrObe demonstrates superior capability to detect errors arising from a wide range of FSI policies, consistently surpassing strong baselines. Moreover, we conduct detailed ablations and a pilot study on error correction to validate the effectiveness of the proposed architecture design and the practicality of the AED task, respectively." />
+    <meta property="og:url" content="http://aed-neurips.github.io" />
+    <!-- Path to banner image, should be in the path listed below. Optimal dimensions are 1200X630-->
+    <meta property="og:image" content="/static/images/aed_logo.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+
+    <meta name="twitter:title" content="AED: Adaptable Error Detection for Few-shot Imitation Policy">
+    <meta name="twitter:description" content="We introduce a new task called Adaptable Error Detection (AED), which aims to identify behavior errors in few-shot imitation (FSI) policies based on visual observations in novel environments. The potential to cause serious damage to surrounding areas limits the application of FSI policies in real-world scenarios. Thus, a robust system is necessary to notify operators when FSI policies are inconsistent with the intent of demonstrations. This task introduces three challenges: (1) detecting behavior errors in novel environments, (2) identifying behavior errors that occur without revealing notable changes, and (3) lacking complete temporal information of the rollout due to the necessity of online detection. However, the existing benchmarks cannot support the development of AED because their tasks do not present all these challenges. To this end, we develop a cross-domain AED benchmark, consisting of 322 base and 153 novel environments. Additionally, we propose Pattern Observer (PrObe) to address these challenges. PrObe is equipped with a powerful pattern extractor and guided by novel learning objectives to parse discernible patterns in the policy feature representations of normal or error states. Through our comprehensive evaluation, PrObe demonstrates superior capability to detect errors arising from a wide range of FSI policies, consistently surpassing strong baselines. Moreover, we conduct detailed ablations and a pilot study on error correction to validate the effectiveness of the proposed architecture design and the practicality of the AED task, respectively." />
+    <!-- Path to banner image, should be in the path listed below. Optimal dimensions are 1200X600-->
+    <meta name="twitter:image" content="static/images/aed_logo.jpg">
+    <meta name="twitter:card" content="AED logo: a monitor to view the status of the robot.">
+    <!-- Keywords for your paper to be indexed by-->
+    <meta name="keywords"
+        content="adaptable error detection, few-shot imitation, policy learning">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <title>AED: Adaptable Error Detection for Few-shot Imitation Policy</title>
+    <link rel="icon" type="image/x-icon" href="static/images/favicon_io/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="static/images/favicon_io">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/images/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/images/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="static/images/favicon_io/site.webmanifest">
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+    <link rel="stylesheet" href="static/css/bulma.min.css">
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="static/css/index.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+    <script defer src="static/fontawesome/js/fontawesome.min.js"></script>
+    <script src="static/js/bulma-carousel.min.js"></script>
+    <script src="static/js/bulma-slider.min.js"></script>
+    <script src="static/js/index.js"></script>
+    <script src="static/js/LaTeXMathML.js"></script>
+</head>
+
+<body>
+
+
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered is-vcentered">
+                    <div class="column "><img src="static/images/aed_logo.jpg" height="187" width="187"></div>
+                    <div class="column has-text-centered is-four-fifths is-vcentered">
+                        <h1 class="title is-1 publication-title">AED: Adaptable Error Detection for Few-shot Imitation Policy</h1>
+                    </div>
+                </div>
+                <div class="container is-max-desktop">
+                    <div class="columns is-centered">
+                        <div class="column has-text-centered is-four-fifths">
+                            <div class="is-size-5 publication-authors">
+                                <!-- Paper authors -->
+                                <span class="author-block">
+                                    <a href="https://www.cmlab.csie.ntu.edu.tw/~jiafongyeh" target="_blank">Jia-Fong 
+                                        Yeh
+                                    </a>
+                                    <sup>1</sup>,
+                                </span>
+                                <span class="author-block">
+                                    <a href="https://scholar.google.com/citations?user=_L9iSdoAAAAJ&hl=en" target="_blank">Kuo-Han
+                                        Hung
+                                    </a>
+                                    <sup>1</sup>,
+                                </span>
+                                <span class="author-block">
+                                    <a href="https://openreview.net/profile?id=~Pang-Chi_Lo1" target="_blank">Pang-Chi 
+                                        Lo
+                                    </a>
+                                    <sup>1</sup>,
+                                </span>
+                                <span class="author-block">
+                                    <a href="https://marvinchung.github.io/" target="_blank">Chi-Ming 
+                                        Chung
+                                    </a>
+                                    <sup>1</sup>,
+                                </span>
+                                <span class="author-block">
+                                    <a href="https://tsunghan-wu.github.io/" target="_blank">Tsung-Han 
+                                        Wu
+                                    </a>
+                                    <sup>2</sup>,
+                                </span><br>
+                                <span class="author-block">
+                                    <a href="https://htsucml.github.io/" target="_blank">Hung-Ting 
+                                        Su
+                                    </a>
+                                    <sup>1</sup>,
+                                </span>
+                                <span class="author-block">
+                                    <a href="https://sites.google.com/site/yitingchen0524/" target="_blank">Yi-Ting 
+                                            Chen
+                                    </a>
+                                    <sup>3</sup>,
+                                </span>
+                                <span class="author-block">
+                                    <a href="https://winstonhsu.info/" target="_blank">Winston H. 
+                                        Hsu
+                                    </a>
+                                    <sup>1, 4</sup>
+                                </span>
+                            </div>
+
+                            <div class="is-size-5 publication-authors">
+                                <span class="author-block" style="font-size: 0.85em">
+                                    <sup>1</sup>
+                                    National Taiwan University
+                                </span><br>
+                                <span class="author-block" style="font-size: 0.85em">
+                                    <sup>2</sup>
+                                    UC Berkeley
+                                </span>
+                                <span class="author-block" style="font-size: 0.85em">
+                                    <sup>3</sup>
+                                    National Yang Ming Chiao Tung University
+                                </span><br>
+                                <span class="author-block" style="font-size: 0.85em">
+                                    <sup>4</sup>
+                                    MobileDrive
+                                </span><br>
+                                <span class="author-block" style="font-weight: bold;">NeurIPS 2024</span>                            
+                            </div>
+
+
+
+                            <div class="column has-text-centered">
+                                <div class="publication-links">
+
+                                    <span class="link-block">
+                                        <a href="https://arxiv.org/abs/2402.03860" target="_blank"
+                                            class="external-link button is-normal is-rounded is-dark">
+                                            <span class="icon">
+                                                <i class="ai ai-arxiv"></i>
+                                            </span>
+                                            <span>arXiv</span>
+                                        </a>
+                                    </span>
+
+                                    <span class="link-block">
+                                        <a href="#" target="_blank"
+                                            class="external-link button is-normal is-rounded is-dark">
+                                            <span class="icon" style="vertical-align: middle; font-size: 20px;"><i class="fa-solid fa-database"></i></span>
+                                            <span>Dataset (TBA)</span>
+                                        </a>
+                                    </span>
+
+                                    <span class="link-block">
+                                        <a href="#" target="_blank"
+                                            class="external-link button is-normal is-rounded is-dark">
+                                            <span class="icon">
+                                                <i class="fa-brands fa-github"></i>
+                                            </span>
+                                            <span>Code (TBA)</span>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Paper abstract -->
+    <section class="section hero ">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full">
+                    <h2 class="title is-4">Abstract</h2>
+                    <div class="content has-text-justified">
+                        <p style="width: 76%; margin-left: auto; margin-right: auto;">
+                        We introduce a new task called Adaptable Error Detection (AED), which aims to identify behavior errors in few-shot imitation (FSI) policies based on visual observations in novel environments. The potential to cause serious damage to surrounding areas limits the application of FSI policies in real-world scenarios. Thus, a robust system is necessary to notify operators when FSI policies are inconsistent with the intent of demonstrations. This task introduces three challenges: (1) detecting behavior errors in novel environments, (2) identifying behavior errors that occur without revealing notable changes, and (3) lacking complete temporal information of the rollout due to the necessity of online detection. However, the existing benchmarks cannot support the development of AED because their tasks do not present all these challenges. To this end, we develop a cross-domain AED benchmark, consisting of 322 base and 153 novel environments. Additionally, we propose Pattern Observer (PrObe) to address these challenges. PrObe is equipped with a powerful pattern extractor and guided by novel learning objectives to parse discernible patterns in the policy feature representations of normal or error states. Through our comprehensive evaluation, PrObe demonstrates superior capability to detect errors arising from a wide range of FSI policies, consistently surpassing strong baselines. Moreover, we conduct detailed ablations and a pilot study on error correction to validate the effectiveness of the proposed architecture design and the practicality of the AED task, respectively.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End paper abstract -->
+
+
+
+    <!-- SESAME -->
+    <section class="section ">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full">
+                    <h2 class="title is-4">Adaptable Error Detection (AED): Detecting Erroneous Behaviors in Policies</h2>
+                </div>
+            </div>
+            <!-- <div id="results-carousel" class="carousel results-carousel"> -->
+                <div class="content has-text-justified">
+                    <p>
+                        Few-shot imitation (FSI) policies have achieved notable breakthroughs in recent studies. However, their potential to cause serious damage in real-world scenarios limits broader applications. A robust system is essential to notify operators when FSI policies deviate from the intended behavior illustrated in demonstrations. Thus, we formulate the Adaptable Error Detection (AED) task, which presents three key challenges: (1) monitoring policies in <b>unseen</b> environments, (2) detecting erroneous behaviors that may <b>not cause significant visual changes</b>, and (3) performing <b>online detection</b> to terminate the policy in a timely manner. These challenges render existing error or anomaly detection methods inadequate for addressing the AED task.
+                    </p>
+                </div>
+                <div class="item is-vcentered" style="width: 80%; margin-left: auto; margin-right: auto;">
+                    <img src="static/images/figures/problem.png" alt="AED overview" />
+                </div>
+                <br>
+                <div class="content has-text-justified">
+                    <p>
+                        In this work, we design a practical <b>AED framework</b> tailored to the nature of few-shot imitation (FSI) policies. The framework comprises three stages: (1) FSI policies are trained in base environments using successful agent rollouts and expert demonstrations, (2) an error detector is trained to distinguish between states from successful and failed agent rollouts by referencing expert demonstrations, also in the base environments. The error detector can also access the policy's internal knowledge if necessary, and (3) the policy is deployed in novel (unseen) environments, where the error detector monitors the policy's behavior, issuing an alert when erroneous actions occur.
+                    </p>
+                </div>
+                <div class="item is-vcentered" style="width: 75%; margin-left: auto; margin-right: auto;">
+                    <img src="static/images/figures/pipeline.png" alt="AED pipeline" />
+                </div>
+            <!-- </div> -->
+        </div>
+    </section>
+
+
+
+    <!-- DATASET -->
+    <section class="section hero ">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full">
+                    <h2 class="title is-4">Our AED Benchmark</h2>
+                    <div class="content has-text-justified">
+                        To fairly evaluate the effectiveness of various methods, we developed the AED benchmark, which includes FSI tasks spanning six indoor scenes and one industrial scene. Each task comprises multiple base and novel environments, with a total of 322 base environments and 153 novel environments. Additionally, our tasks incorporate the FSI challenges introduced in our previous work [1], SCAN, such as multi-stage tasks, length-variant demonstrations, and experts with different appearances.
+                    </div>
+                    <div class="item is-vcentered" style="width: 85%; margin-left: auto; margin-right: auto;">
+                        <img src="static/images/figures/benchmark.png" alt="AED benchmark" />
+                    </div>
+                    <br>
+                    <div class="content has-text-justified">
+                        Our benchmark presents following key features:
+                        <ul>
+                            <li>
+                                <b>Generalization</b>: We applied domain randomization to create dozens of base and novel environments for each task, laying the groundwork for future sim2real experiments. Each environment includes the target object as well as distractors, simulating the complexity of real-world scenes.
+                            </li>
+                            <li>
+                                <b>Challenging Environments</b>: In addition to the FSI challenge mentioned earlier, we also simulated gravity and friction throughout the process, rather than directly attaching the grasped object to the gripper. As a result, uneven movements may cause even grasped objects to drop.
+                            </li>
+                            <li>
+                                <b>Realistic</b>: Our environments support multi-source lighting, soft shadows, and complex object textures, making them more realistic. Additionally, all objects are assigned reasonable weights. The inclusion of gravity and friction further enhances the realism of our tasks.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+
+    <section class="section hero">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full">
+                    <h2 class="title is-4">Our Method: Pattern Observer (PrObe)</h2>
+                    <div class="content has-text-justified">
+                        We introduce <b>Pattern Observer (PrObe)</b>, a novel framework designed to address the challenges of the AED task. Our key insight lies in <b>detecting erroneous behaviors by analyzing the feature embeddings extracted by the policy's encoder</b>, rather than relying on raw visual signals. PrObe consists of three key components: a pattern extractor, a flow generator, and an embedding fusion module for consistency comparison. The pattern extractor assigns importance scores to individual cells within the feature embeddings, defining these as "patterns." These patterns are then passed into a recurrent model to capture their temporal evolution, referred to as the pattern flow. Finally, the pattern flow is concatenated with the task embedding to perform a consistency comparison, which serves as the basis for identifying erroneous behaviors.
+                    </div>
+
+                    <div class="item is-vcentered" style="width: 70%; margin-left: auto; margin-right: auto;">
+                        <img src="static/images/figures/method.png" alt="our method" />
+                    </div>
+
+                    <br>
+
+                    <div class="content has-text-justified">
+                        <b>Training Objectives</b>: PrObe is guided by three objectives during training: one supervised and two unsupervised. The aims of these objectives are outlined below.
+                        <ul>
+                            <li>
+                                <b>Classification loss</b>
+                                <math title="L_cls">
+                                    <mstyle>
+                                        <mrow>
+                                            <msub>
+                                                <mi>L</mi>
+                                                <mo>cls</mo>
+                                            </msub>
+                                        </mrow>
+                                    </mstyle>
+                                </math> 
+                                : a binary cross-entropy (BCE) loss guides PrObe in distinguishing between embeddings that correspond to normal and erroneous behaviors.
+                            </li>
+                            <li>
+                                <b>Sparsity loss</b>
+                                <math title="L_cls">
+                                    <mstyle>
+                                        <mrow>
+                                            <msub>
+                                                <mi>L</mi>
+                                                <mo>pat</mo>
+                                            </msub>
+                                        </mrow>
+                                    </mstyle>
+                                </math> 
+                                : an L1 loss encourages the pattern extractor to learn sparse pattern embeddings in continuous space.
+                            </li>
+                            <li>
+                                <b>Temporal-aware contrastive loss</b>
+                                <math title="L_tem">
+                                    <mstyle>
+                                        <mrow>
+                                            <msub>
+                                                <mi>L</mi>
+                                                <mo>pat</mo>
+                                            </msub>
+                                        </mrow>
+                                    </mstyle>
+                                </math> 
+                                : a modified triplet loss function where the margin dynamically adjusts based on the temporal distances between anchor, positive, and negative samples.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section hero">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full">
+                    <h2 class="title is-4">Timing Accuracy Experiment</h2>
+                    <div class="content has-text-justified">
+                        To assess whether the error detectors identify behavioral errors at the correct moments, we conducted a timing accuracy experiment. In successful rollouts, the predicted probability of an error should remain consistently low throughout the entire sequence. In failed rollouts, the error detectors should raise the predicted probability immediately after the error occurs (indicated by the black vertical line). 
+                    </div>
+                    <div class="columns is-centered">
+                        <div class="column">
+                            <div class="content">
+                                <video id="success_rollout" autoplay controls muted loop playsinline height="100%">
+                                    <source src="static/videos/success_rollout.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="content">
+                                <video id="failed_rollout" autoplay controls muted loop playsinline height="100%">
+                                    <source src="static/videos/failed_rollout.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item is-vcentered" style="width: 90%; margin-left: auto; margin-right: auto;">
+                        <img src="static/images/figures/ta_exp.png" alt="ta_experiment" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section hero">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full">
+                    <h2 class="title is-4">Embedding Visualization</h2>
+                    <div class="content has-text-justified">
+                        We visualized the embeddings extracted by various error detectors to validate the hypothesis that PrObe can capture implicit patterns from the policy’s feature embeddings. The embeddings produced by PrObe reveal distinct characteristics related to task progress, as well as homogeneous clustering of states. Specifically, states with similar properties (e.g., the beginnings of rollouts or the same types of failures) are positioned closer together in the embedding space.
+                    </div>
+
+                    <div class="item is-vcentered" style="width: 90%; margin-left: auto; margin-right: auto;">
+                        <img src="static/images/figures/emb_vis.png" alt="embedding visualization" />
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section hero">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full">
+                    <div class="content has-text-justified">
+                        <b>Note:</b> we also conducted experiments to examine component contributions, performance stability, demonstration quality, viewpoint changes, and error correction. To find the details, please refer to our paper. 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+                    
+    <!--BibTex citation -->
+    <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+            <h2 class="title">BibTeX</h2>
+            <pre><code>@inproceedings{yeh2024aed,
+  title={AED: Adaptable Error Detection for Few-shot Imitation Policy},
+  author={Jia-Fong Yeh and Kuo-Han Hung and Pang-Chi Lo and Chi-Ming Chung and Tsung-Han Wu and Hung-Ting Su and Yi-Ting Chen and Winston H. Hsu},
+  booktitle={The Thirty-eighth Annual Conference on Neural Information Processing Systems (NeurIPS)},
+  year={2024}
+}</code></pre>
+        </div>
+    </section>
+    <!--End BibTex citation -->
+
+    <footer class="footer">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-8">
+                    <div class="content">
+
+                        <p>
+                            This project page was modified from <a
+                                href="https://visual-haystacks.github.io/" target="_blank">Visual Haystacks</a> , which was based on the <a
+                                href="https://github.com/eliahuhorwitz/Academic-project-page-template"
+                                target="_blank">Academic Project Page Template</a>.
+                            You are free to borrow the source code of this website, we just ask that you link back to this page in
+                            the footer. <br> This website is licensed under a <a rel="license"
+                                href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+                                Commons Attribution-ShareAlike 4.0 International License</a>.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Statcounter tracking code -->
+
+    <!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+</body>
+
+</html>
